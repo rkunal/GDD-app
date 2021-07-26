@@ -29,6 +29,19 @@ fun <T> T.showConfirmExitDialog() where T : AppCompatActivity, T : CaptureFlow {
         create()
     }.show()
 }
+fun <T> T.showConfirmImageDeleteDialog() where T : AppCompatActivity, T : CaptureFlow {
+    with(AlertDialog.Builder(this, R.style.Theme_AiScope_Dialog)) {
+        setPositiveButton(R.string.delete_image_positive) { _, _ ->
+            //goToHome()
+        }
+        setNegativeButton(R.string.delete_image_cancel) { _, _ ->
+            // do nothing
+        }
+        setMessage(getString(R.string.capture_flow_delete_image_dialog_message))
+        setTitle(getText(R.string.capture_flow_exit_dialog_title))
+        create()
+    }.show()
+}
 
 fun <T> T.showConfirmBackDialog() where T : AppCompatActivity, T : CaptureFlow {
     with(AlertDialog.Builder(this, R.style.Theme_AiScope_Dialog)) {

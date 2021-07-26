@@ -4,6 +4,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +23,7 @@ import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 import net.aiscope.gdd_app.ui.showConfirmBackDialog
+import net.aiscope.gdd_app.ui.showConfirmImageDeleteDialog
 import net.aiscope.gdd_app.ui.util.BitmapReader
 import net.aiscope.gdd_app.ui.util.BitmapReader.MAX_TEXTURE_SIZE
 import net.aiscope.gdd_app.ui.util.MaximumSizeDownSampling
@@ -102,6 +105,21 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
             }
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.mask_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.action_delete_image -> {
+                showConfirmImageDeleteDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun takeMask(maskName: String, onPhotoReceived: suspend (File?) -> Unit) {
