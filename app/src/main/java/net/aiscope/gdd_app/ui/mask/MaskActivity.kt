@@ -115,7 +115,9 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.action_delete_image -> {
-                showConfirmImageDeleteDialog()
+                lifecycleScope.launch {
+                    //showConfirmImageDeleteDialog(presenter.repository.current(), file)
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
