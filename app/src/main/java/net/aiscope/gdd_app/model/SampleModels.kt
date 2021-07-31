@@ -21,9 +21,11 @@ data class Sample(
 
     fun upsertMask(path: File, isEmpty: Boolean) = copy(captures = captures.upsertMask(path, isEmpty))
 
-    fun deleteCapturedImage(path: File)
+    fun deleteCapturedImage(path: File) = copy(captures =  captures.deleteCapture(path))
+
+    fun hasCapturedImages() : Boolean
     {
-        copy(captures =  captures.deleteCapture(path))
+        return (captures.inProgressCapture != null || captures.completedCaptureCount() > 0 )
     }
 
     fun nextImageName(): String = "${id}_image_${captures.completedCaptureCount()}"
@@ -107,19 +109,21 @@ data class Captures(
 
     fun deleteCapture(path: File) : Captures
     {
-        val captures: Captures
-        if(inProgressCapture?.image == path)
+        val inProgress: InProgressCapture?
+        val completed: List<CompletedCapture>
+        if(inProgressCapture?.image?.compareTo(path) == 0)
         {
-            captures = Captures(null, completedCaptures)
+            inProgress = null
+            completed = completedCaptures
         }
         else
         {
-            val newCompletedCaptures: List<CompletedCapture> = completedCaptures.filterIndexed { ix, element ->
-                ix != 0 && ix != completedCaptures.lastIndex && element.image == path
+            inProgress = this.inProgressCapture
+            completed = completedCaptures.filterIndexed { ix, element ->
+                element.image.compareTo(path) != 0
             }
-            captures = Captures(inProgressCapture, newCompletedCaptures)
         }
-        return captures
+        return Captures(inProgress, completed)
     }
 }
 
