@@ -7,3 +7,4 @@
         android:title="@string/delete_image"
         app:showAsAction="always" />
 </menu>
+
