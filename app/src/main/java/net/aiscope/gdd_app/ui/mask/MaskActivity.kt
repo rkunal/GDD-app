@@ -23,7 +23,7 @@ import net.aiscope.gdd_app.extensions.writeToFile
 import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
-import net.aiscope.gdd_app.ui.goToHome
+import net.aiscope.gdd_app.ui.goToHomeAndFinishActivity
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 import net.aiscope.gdd_app.ui.showConfirmBackDialog
 import net.aiscope.gdd_app.ui.util.BitmapReader
@@ -134,16 +134,14 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
                 presenter.repository.store(newSample)
                 if(!newSample.hasCapturedImages() )
                 {
-                    goToHome()
+                    goToHomeAndFinishActivity()
                 }
                 else
                 {
                     goToSampleCompletion()
                 }
             }
-            setNegativeButton(R.string.delete_image_cancel) { _, _ ->
-                // do nothing
-            }
+            setNegativeButton(R.string.delete_image_cancel) { _, _ -> }
             setMessage(getString(R.string.capture_flow_delete_image_dialog_message))
             setTitle(getText(R.string.capture_flow_exit_dialog_title))
             create()
